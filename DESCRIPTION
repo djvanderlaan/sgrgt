@@ -1,0 +1,17 @@
+Package: sgrgt
+Title: Segregation measures
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jan",
+           family = "van der Laan",
+           role = c("aut", "cre"),
+           email = "r@eoos.dds.nl")
+Description: Segregation measures. 
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    RSpectra,
+    Matrix,
+    igraph,
+    dplyr
