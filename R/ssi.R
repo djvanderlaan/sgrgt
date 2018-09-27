@@ -1,10 +1,10 @@
 
 
-group <- "purple"
-edges_weight <- "weight"
-vertices_id <- 1
-vertices_group <- 2
-verbose <- 0
+# group <- "purple"
+# edges_weight <- "weight"
+# vertices_id <- 1
+# vertices_group <- 2
+# verbose <- 0
 
 
 #' @importFrom dplyr `%>%`
@@ -20,6 +20,25 @@ ssi <- function(vertices, edges, group, edges_weight = "weight", vertices_id = 1
     edges <- edges[c(names(edges[1:2]), edges_weight)]
   }
   names(edges)[1:2] <- c("src", "dst")
+  
+  # Check for duplicate edges and make sure that for every edge a->b there is a 
+  # edge b->a
+  el <- paste0(edges$src, "-", edges$dst)
+  stopifnot(all(!duplicated(el)))
+  el_rev <- paste0(edges$dst, "-", edges$src)
+  missing_edges <- !(el_rev %in% el)
+  if (any(missing_edges)) {
+    warning(paste0("Not all edges a->b have corresponding edge b->a;", 
+      " generating corresponding edges. "))
+    missing_edges <- data.frame(
+      src = edges$dst[missing_edges],
+      dst = edges$src[missing_edges],
+      weight = edges$weight[missing_edges],
+      stringsAsFactors = FALSE
+    )
+    warning("Generated ", nrow(missing_edges), " edges.")
+    edges <- dplyr::bind_rows(edges, missing_edges)
+  }
   
   # Calculate weight for each edge: each person has a total weight of 1
   edges <- edges %>% dplyr::group_by(src) %>% 

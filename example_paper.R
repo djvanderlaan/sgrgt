@@ -43,10 +43,12 @@ vertices$color[vertices$id %in% purple] <- "purple"
 vertices
 
 
-source("R/ssi.R")
 
 
 devtools::load_all("./")
 
-ssi(vertices, edges, group = "pink")
+# Test remove one edge 
+edges <- edges[-3, ]
+
+ssi(vertices, edges, group = "purple", verbose = 2)
 
