@@ -6,8 +6,9 @@
 # vertices_group <- 2
 # verbose <- 0
 
-
-#' @importFrom dplyr `%>%`
+#' Spectral Segregation Index
+#'
+#' @export
 ssi <- function(vertices, edges, group, edges_weight = "weight", vertices_id = 1, 
     vertices_group = 2, verbose = 0) {
   
