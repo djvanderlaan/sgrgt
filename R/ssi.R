@@ -61,8 +61,8 @@ ssi <- function(vertices, edges, group, edges_weight = "weight", vertices_id = 1
   sel_group <- group
   
   # Select edges of given group
-  group_vertices <- filter(vertices, group == sel_group) %>% 
-    select(-group)
+  group_vertices <- dplyr::filter(vertices, group == sel_group) %>% 
+    dplyr::select(-group)
   group_edges <- edges %>% 
     dplyr::inner_join(group_vertices, by = c("src" = "id")) %>%
     dplyr::inner_join(group_vertices, by = c("dst" = "id")) 
@@ -74,7 +74,7 @@ ssi <- function(vertices, edges, group, edges_weight = "weight", vertices_id = 1
     vertices = group_vertices)
   comp <- igraph::components(g, mode = "weak")
   group_vertices$component <- comp$membership
-  group_edges <- left_join(group_edges, group_vertices, by = c("src" = "id"))
+  group_edges <- dplyr::left_join(group_edges, group_vertices, by = c("src" = "id"))
   if (verbose > 0) message("Number of components found: ", comp$no)
   
   # For each component:
