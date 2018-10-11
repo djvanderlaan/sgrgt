@@ -69,7 +69,7 @@ random_walk_segregation <- function(vertices, edges, alpha = 0.85,
     # Calculate segregation of group
     c <- 1.0 * (vertices$group == group)
     b <- c / sum(c)
-    v <- solve(diag(nrow(G)) - alpha * G, (1-alpha)*as.numeric(G %*% c))
+    v <- solve(Diagonal(nrow(G)) - alpha * G, (1-alpha)*as.numeric(G %*% c))
     seg <- as.numeric(b %*% v)
     f <- sum(c)/length(c)
     # Add individual segregation to vertices
